@@ -49,4 +49,23 @@ public class BookService {
 			return book;
 	}
 
+	//skal lage en metode for å oppdatere en bok:
+	public Book updateBook(String isbn, Book updatedBook) throws BookNotFoundException {
+
+		Book existingBook = findByISBN(isbn);
+
+		existingBook.setTitle(updatedBook.getTitle());
+		existingBook.setAuthors(updatedBook.getAuthors());
+
+		return bookRepository.save(existingBook);
+	}
+
+	//skal lage en metode for å slette en bok:
+	public void deleteBook(String isbn) throws BookNotFoundException {
+		Book existingBook = findByISBN(isbn);
+		bookRepository.delete(existingBook);
+	}
+
+
+
 }

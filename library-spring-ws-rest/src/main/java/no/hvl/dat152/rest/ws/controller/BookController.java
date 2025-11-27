@@ -8,12 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import no.hvl.dat152.rest.ws.exceptions.BookNotFoundException;
 import no.hvl.dat152.rest.ws.model.Book;
@@ -57,6 +52,20 @@ public class BookController {
 		Book nbook = bookService.saveBook(book);
 		
 		return new ResponseEntity<>(nbook, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/books/{isbn}")
+	public ResponseEntity<Book> updateBook(@PathVariable String isbn, @RequestBody Book updatedBook) throws BookNotFoundException {
+
+		Book book = bookService.updateBook(isbn, updatedBook);
+
+		return new ResponseEntity<>(book, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/books/{isbn}")
+	public ResponseEntity<String> deleteBook (@PathVariable String isbn) throws BookNotFoundException{
+		bookService.deleteBook(isbn);
+		return new ResponseEntity<> ("Message: delete complete!" ,HttpStatus.OK);
 	}
 
 
